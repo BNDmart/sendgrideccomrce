@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>BN Dmart | India's Premium Store</title>
+  <!-- Google Fonts + Font Awesome + AOS -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    /* ================== पूर्ण CSS (तुमच्या आधीच्या कोडमधील सगळे स्टाईल येथे पेस्ट करा) ================== */
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+    body { background:#f8fafc; color:#0f172a; scroll-behavior:smooth; }
+    .announcement { background:linear-gradient(135deg,#1e293b,#0f172a); color:white; text-align:center; padding:12px; font-size:0.9rem; font-weight:500; position:sticky; top:0; z-index:102; }
+    .announcement i { margin:0 6px; }
+    .header { background:rgba(255,255,255,0.95); backdrop-filter:blur(12px); box-shadow:0 4px 20px rgba(0,0,0,0.02); position:sticky; top:46px; z-index:101; border-bottom:1px solid rgba(0,0,0,0.05); }
+    .container { max-width:1280px; margin:0 auto; padding:0 24px; }
+    .navbar { display:flex; align-items:center; justify-content:space-between; padding:18px 0; flex-wrap:wrap; gap:1rem; }
+    .logo h2 { font-size:1.8rem; font-weight:700; background:linear-gradient(135deg,#0f172a,#2c7da0); background-clip:text; -webkit-background-clip:text; color:transparent; }
+    .nav-links { display:flex; gap:2rem; list-style:none; }
+    .nav-links a { text-decoration:none; font-weight:500; color:#334155; transition:0.3s; cursor:pointer; }
+    .nav-links a:hover { color:#2c7da0; }
+    .search-bar { display:flex; gap:0.5rem; background:white; padding:0.3rem 0.8rem; border-radius:2rem; border:1px solid #e2e8f0; }
+    .search-bar input { border:none; padding:0.5rem; width:200px; outline:none; }
+    .search-bar button { background:none; border:none; cursor:pointer; color:#2c7da0; }
+    .menu-icon { display:none; font-size:1.5rem; background:none; border:none; cursor:pointer; }
+    @media (max-width:768px) {
+      .menu-icon { display:block; }
+      .nav-links { position:fixed; top:106px; left:-100%; background:white; width:70%; height:100vh; flex-direction:column; padding:2rem; box-shadow:2px 0 20px rgba(0,0,0,0.1); transition:0.3s; gap:1.5rem; z-index:99; }
+      .nav-links.active { left:0; }
+      .search-bar input { width:120px; }
+    }
+    .category-slider { background:white; border-bottom:1px solid #eef2ff; padding:1rem 0; overflow-x:auto; white-space:nowrap; scrollbar-width:thin; }
+    .category-slider::-webkit-scrollbar { height:4px; }
+    .category-items { display:inline-flex; gap:1.5rem; padding:0 24px; }
+    .category-item { display:inline-flex; flex-direction:column; align-items:center; cursor:pointer; transition:0.2s; padding:0.5rem; border-radius:2rem; }
+    .category-item i { font-size:1.8rem; margin-bottom:0.3rem; color:#2c7da0; }
+    .category-item span { font-size:0.8rem; font-weight:500; }
+    .category-item.active { background:#eef2ff; color:#2c7da0; }
+    .trust-row { display:flex; flex-wrap:wrap; justify-content:center; gap:2rem; background:white; border-radius:2rem; padding:1.5rem; margin-bottom:2rem; border:1px solid #eef2ff; }
+    .trust-item { display:flex; align-items:center; gap:0.8rem; font-weight:500; }
+    .trust-item i { font-size:1.6rem; color:#2c7da0; }
+    .featured-product-section {
+      background: linear-gradient(145deg, #ffffff, #f8fafc);
+      border-radius: 2rem;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      border: 1px solid #eef2ff;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+      transition: all 0.3s ease;
+    }
+    .featured-product-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+    }
+    .featured-image { flex:1; min-width:280px; }
+    .featured-image img { width:100%; border-radius:1.5rem; box-shadow:0 10px 25px -5px rgba(0,0,0,0.1); }
+    .featured-details { flex:1; }
+    .featured-badge { background:#2c7da0; color:white; display:inline-block; padding:0.3rem 1rem; border-radius:2rem; font-size:0.8rem; font-weight:600; margin-bottom:1rem; }
+    .featured-title { font-size:2rem; font-weight:700; margin-bottom:1rem; color:#0f172a; }
+    .featured-price { font-size:1.5rem; font-weight:700; color:#2c7da0; margin:1rem 0; }
+    .featured-description { color:#475569; margin:1rem 0; line-height:1.6; }
+    .featured-rating { display:flex; align-items:center; gap:0.5rem; margin:1rem 0; color:#f4b942; }
+    .featured-buttons { display:flex; gap:1rem; margin-top:1.5rem; }
+    .featured-buttons button { padding:0.8rem 1.5rem; border-radius:2rem; font-weight:600; cursor:pointer; transition:0.2s; }
+    .btn-featured-buy { background:#0f172a; color:white; border:none; }
+    .btn-featured-buy:hover { background:#2c7da0; }
+    .btn-featured-detail { background:transparent; border:1px solid #cbd5e1; color:#334155; }
+    .btn-featured-detail:hover { background:#f1f5f9; }
+    @media (max-width: 768px) {
+      .featured-title { font-size:1.5rem; }
+      .featured-buttons { flex-direction:column; }
+    }
+    .section-title { font-size:2rem; font-weight:700; margin:2rem 0 1.5rem; position:relative; display:inline-block; }
+    .section-title:after { content:''; position:absolute; bottom:-8px; left:0; width:60%; height:3px; background:linear-gradient(90deg,#2c7da0,transparent); }
+    .products-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:2rem; margin-bottom:3rem; }
+    @media (max-width:640px) {
+      .products-grid { grid-template-columns:repeat(2,1fr); gap:1rem; }
+      .product-info { padding:0.8rem; }
+      .product-title { font-size:0.9rem; }
+      .product-price { font-size:1rem; }
+      .btn-buy { padding:0.5rem; font-size:0.8rem; }
+      .product-rating { font-size:0.7rem; padding:2px 6px; }
+      .trust-item { font-size:0.8rem; }
+    }
+    .product-card { background:white; border-radius:1rem; overflow:hidden; transition:all 0.3s ease; border:1px solid #eef2f6; box-shadow:0 4px 6px -2px rgba(0,0,0,0.05); cursor:pointer; }
+    .product-card:hover { transform:translateY(-5px); box-shadow:0 10px 15px -6px rgba(0,0,0,0.1); }
+    .product-img-container { position:relative; overflow:hidden; }
+    .product-img { width:100%; height:180px; object-fit:cover; transition:transform 0.4s ease; }
+    .product-card:hover .product-img { transform:scale(1.03); }
+    .product-rating { position:absolute; bottom:8px; left:8px; background:rgba(0,0,0,0.7); backdrop-filter:blur(4px); padding:2px 8px; border-radius:20px; color:gold; font-size:0.7rem; font-weight:600; display:flex; align-items:center; gap:4px; }
+    .product-info { padding:1rem; }
+    .product-title { font-weight:700; font-size:1rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .product-price { color:#2c7da0; font-weight:700; margin:0.5rem 0; font-size:1.1rem; }
+    .btn-buy { width:100%; padding:0.6rem; border-radius:2rem; border:none; font-weight:600; cursor:pointer; transition:0.2s; background:#0f172a; color:white; display:flex; align-items:center; justify-content:center; gap:8px; font-size:0.9rem; }
+    .btn-buy:hover { background:#2c7da0; }
+    .product-detail-page { display:none; background:white; border-radius:2rem; padding:2rem; margin:2rem 0; animation:fadeInUp 0.4s ease; }
+    .product-detail-page.active { display:block; }
+    .product-detail-container { display:flex; flex-wrap:wrap; gap:2rem; }
+    .product-gallery { flex:1; min-width:280px; }
+    .main-image { width:100%; border-radius:1rem; margin-bottom:1rem; background:#f1f5f9; }
+    .main-image img { width:100%; border-radius:1rem; object-fit:cover; height:400px; }
+    .thumbnail-container { display:flex; gap:0.8rem; flex-wrap:wrap; }
+    .thumbnail { width:80px; height:80px; object-fit:cover; border-radius:0.5rem; cursor:pointer; border:2px solid transparent; transition:0.2s; }
+    .thumbnail:hover { border-color:#2c7da0; transform:scale(1.05); }
+    .thumbnail.active { border-color:#2c7da0; box-shadow:0 0 0 2px #2c7da0; }
+    .product-detail-info { flex:1; }
+    .back-to-shop { background:none; border:none; color:#2c7da0; font-size:1rem; cursor:pointer; margin-bottom:1rem; display:inline-flex; align-items:center; gap:5px; }
+    .reviews-list { margin:1rem 0; max-height:300px; overflow-y:auto; }
+    .review-item { border-bottom:1px solid #eef2ff; padding:0.8rem 0; }
+    .stars { color:#f4b942; }
+    .add-review { background:#f8fafc; padding:1rem; border-radius:1rem; margin-top:1rem; }
+    .checkout-modal, .checkout-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); z-index:200; visibility:hidden; opacity:0; transition:0.3s; }
+    .checkout-modal { z-index:201; background:white; width:90%; max-width:550px; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.95); border-radius:1.5rem; padding:1.5rem; overflow-y:auto; max-height:85vh; }
+    .checkout-modal.open, .checkout-overlay.active { visibility:visible; opacity:1; }
+    .checkout-modal.open { transform:translate(-50%,-50%) scale(1); }
+    .form-group { margin-bottom:1rem; }
+    .form-group input, .form-group textarea { width:100%; padding:0.8rem; border:1px solid #cbd5e1; border-radius:1rem; }
+    .order-summary { background:#f1f5f9; padding:1rem; border-radius:1rem; margin:1rem 0; }
+    footer { background:#0f172a; color:#cbd5e1; padding:2rem 0; margin-top:3rem; }
+    .footer-container { max-width:1280px; margin:0 auto; padding:0 24px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:2rem; }
+    .footer-col h4 { color:white; margin-bottom:1rem; }
+    .footer-col ul { list-style:none; }
+    .footer-col ul li { margin-bottom:0.5rem; }
+    .footer-col a { color:#cbd5e1; text-decoration:none; transition:0.2s; }
+    .footer-col a:hover { color:white; }
+    .copyright { text-align:center; padding-top:2rem; border-top:1px solid #334155; margin-top:2rem; font-size:0.8rem; }
+    .whatsapp-float { position:fixed; bottom:2rem; left:2rem; background:#25d366; color:white; width:55px; height:55px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.8rem; box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:0.2s; z-index:99; }
+    .whatsapp-float:hover { transform:scale(1.05); }
+    .scroll-top { position:fixed; bottom:2rem; right:2rem; background:#0f172a; color:white; width:45px; height:45px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; visibility:hidden; transition:0.3s; z-index:99; }
+    .scroll-top.show { opacity:1; visibility:visible; }
+    @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @media (max-width:640px) {
+      .product-detail-container { flex-direction:column; }
+      .whatsapp-float { width:45px; height:45px; font-size:1.4rem; bottom:1rem; left:1rem; }
+      .main-image img { height:250px; }
+      .thumbnail { width:60px; height:60px; }
+    }
+  </style>
+</head>
+<body>
+<div class="announcement">
+  <i class="fas fa-truck"></i> Free shipping on orders above ₹999 | Cash on Delivery across India <i class="fas fa-rupee-sign"></i>
+</div>
+<div class="header">
+  <div class="container">
+    <div class="navbar">
+      <div class="logo"><h2>BN Dmart</h2></div>
+      <ul class="nav-links" id="navLinks">
+        <li><a id="navHome">Home</a></li>
+        <li><a id="navShop">Shop</a></li>
+        <li><a id="navCategories">Categories</a></li>
+        <li><a id="navContact">Contact</a></li>
+      </ul>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search by name or price (e.g., 1999)">
+        <button id="searchBtn"><i class="fas fa-search"></i></button>
+        <button id="clearSearchBtn" style="color: #ef4444;"><i class="fas fa-times"></i></button>
+      </div>
+      <button class="menu-icon" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
+    </div>
+  </div>
+</div>
+<div class="category-slider" id="categorySlider">
+  <div class="category-items" id="categoryItems"></div>
+</div>
+<main>
+  <div class="container" id="mainContent">
+    <div id="homeSection">
+      <div class="trust-row" data-aos="fade-up" data-aos-delay="100">
+        <div class="trust-item"><i class="fas fa-rupee-sign"></i> Cash on Delivery</div>
+        <div class="trust-item"><i class="fas fa-exchange-alt"></i> 7-day easy returns</div>
+        <div class="trust-item"><i class="fas fa-shield-alt"></i> Secure checkout</div>
+        <div class="trust-item"><i class="fas fa-clock"></i> Same-day dispatch</div>
+      </div>
+      <div id="featuredProductSection" class="featured-product-section" data-aos="fade-up"></div>
+      <h2 class="section-title" id="featuredTitle" data-aos="fade-right">🔥 Top Rated</h2>
+      <div id="featuredGrid" class="products-grid" style="margin-bottom: 1rem;"></div>
+      <h2 class="section-title" id="allProductsTitle" data-aos="fade-right">✨ All Products</h2>
+      <div id="productsGrid" class="products-grid"></div>
+    </div>
+    <div id="productDetailPage" class="product-detail-page">
+      <button class="back-to-shop" id="backToShopBtn"><i class="fas fa-arrow-left"></i> Back to Shop</button>
+      <div class="product-detail-container">
+        <div class="product-gallery">
+          <div class="main-image"><img id="mainProductImage" src="" alt="Product image"></div>
+          <div class="thumbnail-container" id="thumbnailContainer"></div>
+        </div>
+        <div class="product-detail-info">
+          <h2 id="detailName"></h2>
+          <p id="detailDesc" style="margin: 1rem 0;"></p>
+          <p id="detailPrice" style="font-size: 1.5rem; font-weight: 700; color: #2c7da0;"></p>
+          <button id="detailBuyNow" class="btn-buy" style="margin: 1rem 0;"><i class="fas fa-shopping-cart"></i> Buy Now (COD)</button>
+          <h3>⭐ Customer Reviews</h3>
+          <div id="detailReviewsList" class="reviews-list"></div>
+          <div class="add-review">
+            <h4>Write a review</h4>
+            <input type="text" id="detailReviewName" placeholder="Your name">
+            <select id="detailReviewRating">
+              <option value="5">★★★★★ (5)</option><option value="4">★★★★☆ (4)</option>
+              <option value="3">★★★☆☆ (3)</option><option value="2">★★☆☆☆ (2)</option>
+              <option value="1">★☆☆☆☆ (1)</option>
+            </select>
+            <textarea id="detailReviewComment" rows="2" placeholder="Share your experience..."></textarea>
+            <button id="submitDetailReview" class="btn-buy" style="background:#eef2ff; color:#0f172a; margin-top:8px;">Submit Review</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="contactSection" style="display: none;">
+      <div style="background: white; border-radius: 2rem; padding: 2rem; margin: 2rem 0; border:1px solid #eef2ff;">
+        <h2>📬 Need help? Contact us</h2>
+        <p>We’ll get back to you within 24 hours.</p>
+        <form id="contactForm" style="margin-top:1rem;">
+          <div class="form-group"><input type="text" id="contactName" placeholder="Your name" required></div>
+          <div class="form-group"><input type="email" id="contactEmail" placeholder="Email address" required></div>
+          <div class="form-group"><textarea id="contactMessage" rows="3" placeholder="Your query..."></textarea></div>
+          <button type="submit" style="background:#2c7da0; padding: 0.8rem 1.5rem; border: none; border-radius: 2rem; color: white; font-weight: 600; cursor: pointer;">Send message <i class="fas fa-paper-plane"></i></button>
+          <div id="contactStatus" style="margin-top: 0.8rem; font-size:0.8rem;"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-container">
+    <div class="footer-col"><h4>Quick Links</h4><ul><li><a id="footerHome">Home</a></li><li><a id="footerShop">Shop</a></li><li><a id="footerContact">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Policies</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Return Policy</a></li><li><a href="#">Shipping Info</a></li></ul></div>
+    <div class="footer-col"><h4>Connect</h4><ul><li><a href="#">Instagram</a></li><li><a href="#">Facebook</a></li><li><a href="#">Twitter</a></li><li><a href="#">WhatsApp Support</a></li></ul></div>
+    <div class="footer-col"><h4>Contact Us</h4><p><i class="fas fa-phone"></i> +91 98765 43210</p><p><i class="fas fa-envelope"></i> support@bndmart.in</p><p><i class="fas fa-map-marker-alt"></i> Mumbai, India</p></div>
+  </div>
+  <div class="copyright"><p>© 2025 BN Dmart — India’s trusted store</p></div>
+</footer>
+<a href="https://wa.me/919923404885?text=Hello%2C%20I%20need%20help%20with%20my%20order" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
+<div class="checkout-overlay" id="checkoutOverlay"></div>
+<div class="checkout-modal" id="checkoutModal">
+  <div style="display:flex; justify-content:space-between;"><h2>📦 Cash on Delivery</h2><button id="closeCheckoutBtn" style="background:none; font-size:1.5rem; border:none; cursor:pointer;">&times;</button></div>
+  <form id="checkoutForm">
+    <div class="form-group"><input type="text" id="fullName" placeholder="Full Name" required></div>
+    <div class="form-group"><input type="email" id="email" placeholder="Email Address" required></div>
+    <div class="form-group"><input type="tel" id="phone" placeholder="Phone Number" required></div>
+    <div class="form-group"><textarea id="address" rows="3" placeholder="Complete Address (Street, City, Pincode)" required></textarea></div>
+    <div class="form-group"><input type="text" id="landmark" placeholder="Landmark (Optional)"></div>
+    <div class="order-summary" id="orderSummaryPreview"></div>
+    <button type="submit" style="background:#0f172a; color:white; width:100%; padding:0.8rem; border:none; border-radius:2rem; font-weight:600; cursor:pointer;">Confirm COD Order</button>
+  </form>
+  <p style="font-size:0.75rem; margin-top:1rem;">By placing order, you agree to our terms & conditions. Cash will be collected at delivery.</p>
+</div>
+<div class="scroll-top" id="scrollTopBtn"><i class="fas fa-arrow-up"></i></div>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 800, once: true });
+
+  // ========== कॉन्फिगरेशन ==========
+  const API_BASE_URL = '';  // रिकामे म्हणजे त्याच सर्व्हरवर रिक्वेस्ट जातील
+
+  // ---------- प्रॉडक्ट डेटा (8 प्रॉडक्ट्स) ----------
+  const products = [
+    { id: 1, name: "Minimalist Backpack", price: 1999, category: "Fashion", description: "Water-resistant, laptop compartment, perfect for daily commute.", reviews: [{ name: "Arjun S.", rating: 5, comment: "Super stylish and durable!" }, { name: "Priya K.", rating: 4, comment: "Great quality, spacious." }],
+      images: ["https://picsum.photos/id/20/800/600", "https://picsum.photos/id/21/800/600", "https://picsum.photos/id/22/800/600", "https://picsum.photos/id/23/800/600"] },
+    { id: 2, name: "Wireless Headphones", price: 2999, category: "Electronics", description: "Noise cancelling, 30h battery, premium sound.", reviews: [{ name: "Rahul M.", rating: 5, comment: "Best headphones I've owned." }, { name: "Neha V.", rating: 4, comment: "Comfortable, battery life is solid." }],
+      images: ["https://picsum.photos/id/1/800/600", "https://picsum.photos/id/2/800/600", "https://picsum.photos/id/3/800/600"] },
+    { id: 3, name: "Cotton Hoodie", price: 1499, category: "Fashion", description: "Organic cotton, relaxed fit, eco-friendly.", reviews: [{ name: "Simran P.", rating: 5, comment: "Super soft and cozy!" }],
+      images: ["https://picsum.photos/id/26/800/600", "https://picsum.photos/id/27/800/600", "https://picsum.photos/id/28/800/600"] },
+    { id: 4, name: "Smart Watch", price: 3999, category: "Electronics", description: "Heart rate, GPS, 5-day battery.", reviews: [{ name: "Vikram R.", rating: 4, comment: "Great features, sleek design." }],
+      images: ["https://picsum.photos/id/0/800/600", "https://picsum.photos/id/4/800/600", "https://picsum.photos/id/5/800/600"] },
+    { id: 5, name: "Leather Wallet", price: 999, category: "Accessories", description: "Genuine leather, RFID blocking.", reviews: [{ name: "Anjali D.", rating: 5, comment: "Minimalist and elegant." }],
+      images: ["https://picsum.photos/id/82/800/600", "https://picsum.photos/id/83/800/600", "https://picsum.photos/id/84/800/600"] },
+    { id: 6, name: "Sneakers Ultra", price: 2499, category: "Footwear", description: "Breathable mesh, memory foam insole.", reviews: [{ name: "Kunal T.", rating: 4, comment: "Very comfy for walking." }],
+      images: ["https://picsum.photos/id/16/800/600", "https://picsum.photos/id/17/800/600", "https://picsum.photos/id/18/800/600"] },
+    { id: 7, name: "Bluetooth Speaker", price: 1899, category: "Electronics", description: "360° sound, waterproof, 12h playtime.", reviews: [{ name: "Sneha R.", rating: 5, comment: "Amazing sound quality!" }],
+      images: ["https://picsum.photos/id/29/800/600", "https://picsum.photos/id/30/800/600", "https://picsum.photos/id/31/800/600"] },
+    { id: 8, name: "Sunglasses", price: 799, category: "Accessories", description: "UV protection, polarized lenses.", reviews: [{ name: "Raj K.", rating: 4, comment: "Stylish and comfortable." }],
+      images: ["https://picsum.photos/id/96/800/600", "https://picsum.photos/id/97/800/600", "https://picsum.photos/id/98/800/600"] }
+  ];
+
+  const FEATURED_PRODUCT_ID = 2;
+
+  // लोकल स्टोरेजमधून रिव्ह्यूज लोड करा
+  let storedProducts = JSON.parse(localStorage.getItem("bndmartProducts"));
+  if(storedProducts) {
+    storedProducts.forEach(sp => {
+      let p = products.find(p => p.id === sp.id);
+      if(p) p.reviews = sp.reviews;
+    });
+  }
+  function saveProductsReviews() {
+    let toStore = products.map(p => ({ id: p.id, reviews: p.reviews }));
+    localStorage.setItem("bndmartProducts", JSON.stringify(toStore));
+  }
+
+  function getProductRating(product) {
+    if(!product.reviews || product.reviews.length === 0) return { avg: 0, stars: "☆☆☆☆☆", count: 0 };
+    let sum = product.reviews.reduce((acc, r) => acc + r.rating, 0);
+    let avg = sum / product.reviews.length;
+    let fullStars = Math.round(avg);
+    let stars = "★".repeat(fullStars) + "☆".repeat(5 - fullStars);
+    return { avg: avg.toFixed(1), stars, count: product.reviews.length };
+  }
+
+  // DOM एलिमेंट्स
+  const homeSection = document.getElementById('homeSection');
+  const productDetailPage = document.getElementById('productDetailPage');
+  const contactSection = document.getElementById('contactSection');
+  const productsGrid = document.getElementById('productsGrid');
+  const featuredGrid = document.getElementById('featuredGrid');
+  const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
+  const clearSearchBtn = document.getElementById('clearSearchBtn');
+  const featuredTitle = document.getElementById('featuredTitle');
+  const allProductsTitle = document.getElementById('allProductsTitle');
+
+  let currentFilterCategory = "All";
+  let currentSearchTerm = "";
+
+  const categories = ["All", ...new Set(products.map(p => p.category))];
+  function renderCategorySlider() {
+    const container = document.getElementById('categoryItems');
+    container.innerHTML = categories.map(cat => `
+      <div class="category-item ${currentFilterCategory === cat ? 'active' : ''}" data-category="${cat}">
+        <i class="fas ${cat === 'All' ? 'fa-th-large' : cat === 'Electronics' ? 'fa-microchip' : cat === 'Fashion' ? 'fa-tshirt' : cat === 'Accessories' ? 'fa-glasses' : 'fa-shoe-prints'}"></i>
+        <span>${cat}</span>
+      </div>
+    `).join('');
+    document.querySelectorAll('.category-item').forEach(el => {
+      el.addEventListener('click', () => {
+        currentFilterCategory = el.dataset.category;
+        renderCategorySlider();
+        filterAndRenderProducts();
+        updateTitles();
+      });
+    });
+  }
+
+  function updateTitles() {
+    if(currentFilterCategory === "All") {
+      featuredTitle.innerHTML = "🔥 Top Rated";
+      allProductsTitle.innerHTML = "✨ All Products";
+    } else {
+      featuredTitle.innerHTML = `🔥 Top Rated in ${currentFilterCategory}`;
+      allProductsTitle.innerHTML = `✨ ${currentFilterCategory} Products`;
+    }
+  }
+
+  function filterAndRenderProducts() {
+    let filtered = products;
+    if(currentFilterCategory !== "All") {
+      filtered = filtered.filter(p => p.category === currentFilterCategory);
+    }
+    if(currentSearchTerm) {
+      filtered = filtered.filter(p => 
+        p.name.toLowerCase().includes(currentSearchTerm.toLowerCase()) || 
+        p.price.toString().includes(currentSearchTerm)
+      );
+    }
+    renderProductsGrid(filtered);
+    renderFeaturedProducts(filtered);
+    updateTitles();
+  }
+
+  function renderProductsGrid(productsArray) {
+    if(!productsArray.length) {
+      productsGrid.innerHTML = '<div style="text-align:center; padding:3rem;">No products found.</div>';
+      return;
+    }
+    productsGrid.innerHTML = productsArray.map(p => {
+      const rating = getProductRating(p);
+      return `
+        <div class="product-card" data-id="${p.id}">
+          <div class="product-img-container">
+            <img class="product-img" src="${p.images[0]}" alt="${p.name}">
+            <div class="product-rating"><i class="fas fa-star"></i> ${rating.avg} (${rating.count})</div>
+          </div>
+          <div class="product-info">
+            <div class="product-title">${p.name}</div>
+            <div class="product-price">₹${p.price}</div>
+            <button class="btn-buy buy-now-btn" data-id="${p.id}"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+    attachProductEvents();
+  }
+
+  function renderFeaturedProducts(filteredList) {
+    let sorted = [...filteredList].sort((a,b) => {
+      let ra = a.reviews.length ? a.reviews.reduce((s,r)=>s+r.rating,0)/a.reviews.length : 0;
+      let rb = b.reviews.length ? b.reviews.reduce((s,r)=>s+r.rating,0)/b.reviews.length : 0;
+      return rb - ra;
+    });
+    let featured = sorted.slice(0,4);
+    featuredGrid.innerHTML = featured.map(p => {
+      const rating = getProductRating(p);
+      return `
+        <div class="product-card" data-id="${p.id}">
+          <div class="product-img-container">
+            <img class="product-img" src="${p.images[0]}" alt="${p.name}">
+            <div class="product-rating"><i class="fas fa-star"></i> ${rating.avg} (${rating.count})</div>
+          </div>
+          <div class="product-info">
+            <div class="product-title">${p.name}</div>
+            <div class="product-price">₹${p.price}</div>
+            <button class="btn-buy buy-now-btn" data-id="${p.id}"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+    attachProductEvents();
+  }
+
+  function renderFeaturedProduct() {
+    const featuredProduct = products.find(p => p.id === FEATURED_PRODUCT_ID);
+    if(!featuredProduct) return;
+    const rating = getProductRating(featuredProduct);
+    const starDisplay = "★".repeat(Math.round(parseFloat(rating.avg))) + "☆".repeat(5 - Math.round(parseFloat(rating.avg)));
+    const html = `
+      <div class="featured-product-container">
+        <div class="featured-image">
+          <img src="${featuredProduct.images[0]}" alt="${featuredProduct.name}">
+        </div>
+        <div class="featured-details">
+          <div class="featured-badge">🔥 Featured Product</div>
+          <h2 class="featured-title">${featuredProduct.name}</h2>
+          <div class="featured-rating">
+            <i class="fas fa-star" style="color:#f4b942"></i> ${rating.avg} (${rating.count} reviews)
+            <span style="color:#94a3b8;">| ${starDisplay}</span>
+          </div>
+          <div class="featured-price">₹${featuredProduct.price}</div>
+          <div class="featured-description">${featuredProduct.description}</div>
+          <div class="featured-buttons">
+            <button class="btn-featured-buy" id="featuredBuyNow">Buy Now (COD)</button>
+            <button class="btn-featured-detail" id="featuredViewDetails">View Details</button>
+          </div>
+        </div>
+      </div>
+    `;
+    const container = document.getElementById('featuredProductSection');
+    container.innerHTML = html;
+    document.getElementById('featuredBuyNow').addEventListener('click', (e) => {
+      e.stopPropagation();
+      openCheckoutModal([{ ...featuredProduct, quantity: 1 }], featuredProduct.price);
+    });
+    document.getElementById('featuredViewDetails').addEventListener('click', (e) => {
+      e.stopPropagation();
+      showProductDetail(featuredProduct);
+    });
+  }
+
+  function attachProductEvents() {
+    document.querySelectorAll('.buy-now-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        let id = parseInt(btn.dataset.id);
+        let product = products.find(p => p.id === id);
+        openCheckoutModal([{ ...product, quantity: 1 }], product.price);
+      });
+    });
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        if(e.target.classList.contains('buy-now-btn')) return;
+        let id = parseInt(card.dataset.id);
+        let product = products.find(p => p.id === id);
+        showProductDetail(product);
+      });
+    });
+  }
+
+  // प्रॉडक्ट डिटेल पेज
+  let currentDetailProduct = null;
+  function showProductDetail(product) {
+    currentDetailProduct = product;
+    homeSection.style.display = 'none';
+    contactSection.style.display = 'none';
+    productDetailPage.classList.add('active');
+    
+    document.getElementById('detailName').innerText = product.name;
+    document.getElementById('detailDesc').innerText = product.description;
+    document.getElementById('detailPrice').innerHTML = `₹${product.price}`;
+    renderDetailReviews(product.reviews);
+    
+    const mainImg = document.getElementById('mainProductImage');
+    mainImg.src = product.images[0];
+    const thumbContainer = document.getElementById('thumbnailContainer');
+    thumbContainer.innerHTML = product.images.map((img, idx) => `
+      <img class="thumbnail ${idx === 0 ? 'active' : ''}" src="${img}" data-index="${idx}" style="cursor:pointer;">
+    `).join('');
+    thumbContainer.querySelectorAll('.thumbnail').forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        mainImg.src = thumb.src;
+        thumbContainer.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+      });
+    });
+    
+    document.getElementById('detailBuyNow').onclick = () => {
+      openCheckoutModal([{ ...product, quantity: 1 }], product.price);
+    };
+  }
+
+  function renderDetailReviews(reviews) {
+    const container = document.getElementById('detailReviewsList');
+    if(!reviews || reviews.length === 0) { container.innerHTML = '<p>No reviews yet. Be the first!</p>'; return; }
+    let html = '';
+    reviews.forEach(r => {
+      let starHtml = '★'.repeat(r.rating) + '☆'.repeat(5-r.rating);
+      html += `<div class="review-item"><strong>${escapeHtml(r.name)}</strong> <span class="stars">${starHtml}</span><p>${escapeHtml(r.comment)}</p></div>`;
+    });
+    container.innerHTML = html;
+  }
+
+  function addReviewToCurrentProduct(name, rating, comment) {
+    if(!name.trim() || !comment.trim()) { alert("Please fill name and comment."); return false; }
+    currentDetailProduct.reviews.unshift({ name: name.trim(), rating: parseInt(rating), comment: comment.trim() });
+    saveProductsReviews();
+    renderDetailReviews(currentDetailProduct.reviews);
+    filterAndRenderProducts();
+    renderFeaturedProduct();
+    return true;
+  }
+
+  document.getElementById('submitDetailReview').addEventListener('click', () => {
+    const name = document.getElementById('detailReviewName').value;
+    const rating = document.getElementById('detailReviewRating').value;
+    const comment = document.getElementById('detailReviewComment').value;
+    if(addReviewToCurrentProduct(name, rating, comment)) {
+      document.getElementById('detailReviewName').value = '';
+      document.getElementById('detailReviewComment').value = '';
+    }
+  });
+
+  document.getElementById('backToShopBtn').addEventListener('click', () => {
+    homeSection.style.display = 'block';
+    contactSection.style.display = 'none';
+    productDetailPage.classList.remove('active');
+  });
+
+  // नेव्हिगेशन
+  function showHome() { homeSection.style.display = 'block'; contactSection.style.display = 'none'; productDetailPage.classList.remove('active'); }
+  function showContact() { homeSection.style.display = 'none'; contactSection.style.display = 'block'; productDetailPage.classList.remove('active'); }
+  document.getElementById('navHome').addEventListener('click', showHome);
+  document.getElementById('navShop').addEventListener('click', () => { showHome(); document.getElementById('productsGrid').scrollIntoView({ behavior: 'smooth' }); });
+  document.getElementById('navCategories').addEventListener('click', () => { showHome(); document.querySelector('.category-slider').scrollIntoView({ behavior: 'smooth' }); });
+  document.getElementById('navContact').addEventListener('click', showContact);
+  document.getElementById('footerHome').addEventListener('click', showHome);
+  document.getElementById('footerShop').addEventListener('click', () => { showHome(); document.getElementById('productsGrid').scrollIntoView({ behavior: 'smooth' }); });
+  document.getElementById('footerContact').addEventListener('click', showContact);
+
+  // सर्च
+  let debounceTimer;
+  function performSearch() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      currentSearchTerm = searchInput.value.trim();
+      filterAndRenderProducts();
+    }, 300);
+  }
+  searchBtn.addEventListener('click', () => { currentSearchTerm = searchInput.value.trim(); filterAndRenderProducts(); });
+  searchInput.addEventListener('keyup', performSearch);
+  clearSearchBtn.addEventListener('click', () => { searchInput.value = ''; currentSearchTerm = ''; filterAndRenderProducts(); });
+
+  // चेकआउट मोडल (बॅकएंडला डेटा पाठवा)
+  const checkoutModalElem = document.getElementById('checkoutModal');
+  const checkoutOverlayElem = document.getElementById('checkoutOverlay');
+  let currentOrderItems = [];
+  let currentOrderTotal = 0;
+  function openCheckoutModal(items, total) {
+    currentOrderItems = items;
+    currentOrderTotal = total;
+    const summaryDiv = document.getElementById('orderSummaryPreview');
+    let summaryHtml = `<strong>Order Summary</strong><br>`;
+    items.forEach(item => { summaryHtml += `${item.name} x ${item.quantity} = ₹${item.price * item.quantity}<br>`; });
+    summaryHtml += `<strong>Total: ₹${total}</strong><br><small>Payment: Cash on Delivery</small>`;
+    summaryDiv.innerHTML = summaryHtml;
+    checkoutModalElem.classList.add('open');
+    checkoutOverlayElem.classList.add('active');
+  }
+  function closeCheckoutModal() { checkoutModalElem.classList.remove('open'); checkoutOverlayElem.classList.remove('active'); }
+  document.getElementById('closeCheckoutBtn').addEventListener('click', closeCheckoutModal);
+  checkoutOverlayElem.addEventListener('click', closeCheckoutModal);
+
+  const checkoutForm = document.getElementById('checkoutForm');
+  checkoutForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const fullName = document.getElementById('fullName').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('address').value;
+    const landmark = document.getElementById('landmark').value;
+    if(!fullName || !email || !phone || !address) { alert("Please fill all required fields"); return; }
+
+    const orderData = {
+      order_id: `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      customer_name: fullName,
+      customer_email: email,
+      customer_phone: phone,
+      address: address + (landmark ? `, ${landmark}` : ""),
+      items: currentOrderItems.map(item => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+        image: item.images ? item.images[0] : "https://picsum.photos/id/20/64/64"
+      })),
+      total: currentOrderTotal,
+      payment_method: "Cash on Delivery"
+    };
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData)
+      });
+      if (response.ok) {
+        alert("✅ Order placed successfully! You will receive a confirmation email shortly.");
+        closeCheckoutModal();
+        checkoutForm.reset();
+      } else {
+        throw new Error('Server error');
+      }
+    } catch (err) {
+      console.error(err);
+      alert("❌ Failed to place order. Please try again later.");
+    }
+  });
+
+  // कॉन्टॅक्ट फॉर्म
+  const contactFormElem = document.getElementById('contactForm');
+  const contactStatus = document.getElementById('contactStatus');
+  contactFormElem.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    contactStatus.innerHTML = "Sending...";
+    const contactData = {
+      name: document.getElementById('contactName').value,
+      email: document.getElementById('contactEmail').value,
+      message: document.getElementById('contactMessage').value
+    };
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(contactData)
+      });
+      if (response.ok) {
+        contactStatus.innerHTML = "✅ Thanks! We'll reply soon.";
+        contactFormElem.reset();
+      } else {
+        throw new Error('Server error');
+      }
+    } catch (err) {
+      console.error(err);
+      contactStatus.innerHTML = "❌ Failed to send. Please try again later.";
+    }
+  });
+
+  // स्क्रोल टॉप
+  const scrollBtn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll', () => { if(window.scrollY > 400) scrollBtn.classList.add('show'); else scrollBtn.classList.remove('show'); });
+  scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // हॅम्बर्गर मेनू
+  const hamburger = document.getElementById('hamburgerBtn');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+  document.querySelectorAll('.nav-links a').forEach(link => link.addEventListener('click', () => { if(window.innerWidth <= 768) navLinks.classList.remove('active'); }));
+
+  function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+  // इनिशियलायझेशन
+  renderCategorySlider();
+  filterAndRenderProducts();
+  renderFeaturedProduct();
+  saveProductsReviews();
+  showHome();
+</script>
+</body>
+</html>
