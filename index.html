@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <style>
-    /* ================== पूर्ण CSS (तुमच्या आधीच्या कोडमधील सगळे स्टाईल येथे पेस्ट करा) ================== */
+    /* ========== ALL EXISTING CSS (unchanged) – paste your full working CSS here ========== */
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
     body { background:#f8fafc; color:#0f172a; scroll-behavior:smooth; }
     .announcement { background:linear-gradient(135deg,#1e293b,#0f172a); color:white; text-align:center; padding:12px; font-size:0.9rem; font-weight:500; position:sticky; top:0; z-index:102; }
@@ -109,6 +109,8 @@
     .thumbnail.active { border-color:#2c7da0; box-shadow:0 0 0 2px #2c7da0; }
     .product-detail-info { flex:1; }
     .back-to-shop { background:none; border:none; color:#2c7da0; font-size:1rem; cursor:pointer; margin-bottom:1rem; display:inline-flex; align-items:center; gap:5px; }
+    .detail-action-buttons { display:flex; gap:1rem; margin:1rem 0; }
+    .detail-action-buttons .btn-buy { flex:1; margin:0; }
     .reviews-list { margin:1rem 0; max-height:300px; overflow-y:auto; }
     .review-item { border-bottom:1px solid #eef2ff; padding:0.8rem 0; }
     .stars { color:#f4b942; }
@@ -139,6 +141,42 @@
       .main-image img { height:250px; }
       .thumbnail { width:60px; height:60px; }
     }
+    /* New styles for carousel, category page, toast */
+    .carousel-section { margin: 2rem 0 3rem; }
+    .carousel-container { display: flex; overflow-x: auto; scroll-behavior: smooth; gap: 1.5rem; padding: 1rem 0.5rem; scrollbar-width: thin; }
+    .carousel-container::-webkit-scrollbar { height: 6px; }
+    .carousel-item { flex: 0 0 220px; background: white; border-radius: 1rem; overflow: hidden; transition: transform 0.2s; cursor: pointer; border: 1px solid #eef2f6; }
+    .carousel-item:hover { transform: scale(1.02); }
+    .carousel-item img { width: 100%; height: 150px; object-fit: cover; }
+    .carousel-item-info { padding: 0.8rem; }
+    .carousel-item-info h4 { font-size: 0.9rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .carousel-item-info p { font-size: 0.85rem; color: #2c7da0; font-weight: 600; margin-top: 4px; }
+    .category-page { display: none; margin: 2rem 0; }
+    .category-page.active { display: block; }
+    .category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+    .category-card { background: white; border-radius: 1rem; padding: 2rem 1rem; text-align: center; cursor: pointer; transition: all 0.2s; border: 1px solid #eef2ff; }
+    .category-card:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0,0,0,0.05); background: #f8fafc; }
+    .category-card i { font-size: 2.5rem; color: #2c7da0; margin-bottom: 0.5rem; }
+    .category-card h3 { font-size: 1.2rem; margin: 0.5rem 0; }
+    .category-card p { font-size: 0.85rem; color: #475569; }
+    .testimonials-section { background: white; border-radius: 2rem; padding: 2rem; margin: 3rem 0; border: 1px solid #eef2ff; }
+    .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+    .testimonial-card { background: #f8fafc; border-radius: 1rem; padding: 1.5rem; border: 1px solid #eef2ff; }
+    .testimonial-stars { color: #f4b942; margin-bottom: 0.5rem; }
+    .testimonial-text { font-style: italic; color: #334155; margin-bottom: 1rem; line-height: 1.5; }
+    .testimonial-author { font-weight: 600; color: #0f172a; }
+    .toast-notification { position: fixed; bottom: 20px; right: 20px; background: #0f172a; color: white; padding: 12px 24px; border-radius: 8px; z-index: 1000; font-size: 0.9rem; font-weight: 500; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transform: translateX(120%); transition: transform 0.3s ease; }
+    .toast-notification.show { transform: translateX(0); }
+    .toast-notification.success { background: #2c7da0; }
+    .toast-notification.error { background: #e11d48; }
+    .cart-icon { position: relative; cursor: pointer; font-size: 1.5rem; color: #1e293b; }
+    .cart-count { position: absolute; top: -8px; right: -12px; background: #e11d48; color: white; font-size: 0.7rem; font-weight: bold; padding: 2px 6px; border-radius: 30px; }
+    .cart-drawer { position: fixed; right: 0; top: 0; width: 360px; max-width: 90vw; background: white; height: 100%; z-index: 201; padding: 1.5rem; transform: translateX(100%); transition: 0.3s; display: flex; flex-direction: column; box-shadow: -5px 0 20px rgba(0,0,0,0.1); }
+    .cart-drawer.open { transform: translateX(0); }
+    .cart-items { flex: 1; overflow-y: auto; }
+    .cart-item { display: flex; gap: 12px; margin-bottom: 20px; border-bottom: 1px solid #edf2f7; padding-bottom: 12px; }
+    .cart-item img { width: 55px; height: 55px; object-fit: cover; border-radius: 12px; }
+    .cart-total { font-weight: 800; font-size: 1.2rem; margin-top: 20px; }
   </style>
 </head>
 <body>
@@ -152,7 +190,7 @@
       <ul class="nav-links" id="navLinks">
         <li><a id="navHome">Home</a></li>
         <li><a id="navShop">Shop</a></li>
-        <li><a id="navCategories">Categories</a></li>
+        <li><a id="navCategoriesPage">Categories</a></li>
         <li><a id="navContact">Contact</a></li>
       </ul>
       <div class="search-bar">
@@ -160,7 +198,13 @@
         <button id="searchBtn"><i class="fas fa-search"></i></button>
         <button id="clearSearchBtn" style="color: #ef4444;"><i class="fas fa-times"></i></button>
       </div>
-      <button class="menu-icon" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
+      <div class="header-actions" style="display:flex; gap:1rem; align-items:center;">
+        <div class="cart-icon" id="cartIconBtn">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-count" id="cartCountBadge">0</span>
+        </div>
+        <button class="menu-icon" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
+      </div>
     </div>
   </div>
 </div>
@@ -177,10 +221,34 @@
         <div class="trust-item"><i class="fas fa-clock"></i> Same-day dispatch</div>
       </div>
       <div id="featuredProductSection" class="featured-product-section" data-aos="fade-up"></div>
+      <div id="carouselSection" class="carousel-section" data-aos="fade-up">
+        <h2 class="section-title">✨ You May Also Like</h2>
+        <div class="carousel-container" id="carouselContainer"></div>
+      </div>
       <h2 class="section-title" id="featuredTitle" data-aos="fade-right">🔥 Top Rated</h2>
       <div id="featuredGrid" class="products-grid" style="margin-bottom: 1rem;"></div>
       <h2 class="section-title" id="allProductsTitle" data-aos="fade-right">✨ All Products</h2>
       <div id="productsGrid" class="products-grid"></div>
+      <div class="testimonials-section" data-aos="fade-up">
+        <h2 class="section-title">💬 What Our Customers Say</h2>
+        <div class="testimonial-grid">
+          <div class="testimonial-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"Amazing quality and fast delivery! The backpack is perfect for my daily commute."</p>
+            <p class="testimonial-author">— Priya K., Mumbai</p>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars">★★★★☆</div>
+            <p class="testimonial-text">"Wireless headphones are superb. Battery lasts long, sound quality is top-notch."</p>
+            <p class="testimonial-author">— Rahul M., Delhi</p>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"The sneakers are super comfortable. Will definitely order again!"</p>
+            <p class="testimonial-author">— Sneha R., Bangalore</p>
+          </div>
+        </div>
+      </div>
     </div>
     <div id="productDetailPage" class="product-detail-page">
       <button class="back-to-shop" id="backToShopBtn"><i class="fas fa-arrow-left"></i> Back to Shop</button>
@@ -193,7 +261,10 @@
           <h2 id="detailName"></h2>
           <p id="detailDesc" style="margin: 1rem 0;"></p>
           <p id="detailPrice" style="font-size: 1.5rem; font-weight: 700; color: #2c7da0;"></p>
-          <button id="detailBuyNow" class="btn-buy" style="margin: 1rem 0;"><i class="fas fa-shopping-cart"></i> Buy Now (COD)</button>
+          <div class="detail-action-buttons">
+            <button id="detailAddToCart" class="btn-buy" style="background:#2c7da0;"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+            <button id="detailBuyNow" class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now (COD)</button>
+          </div>
           <h3>⭐ Customer Reviews</h3>
           <div id="detailReviewsList" class="reviews-list"></div>
           <div class="add-review">
@@ -209,6 +280,10 @@
           </div>
         </div>
       </div>
+    </div>
+    <div id="categoryPage" class="category-page">
+      <h2 class="section-title">📂 Browse Categories</h2>
+      <div class="category-grid" id="categoryGrid"></div>
     </div>
     <div id="contactSection" style="display: none;">
       <div style="background: white; border-radius: 2rem; padding: 2rem; margin: 2rem 0; border:1px solid #eef2ff;">
@@ -227,7 +302,7 @@
 </main>
 <footer>
   <div class="footer-container">
-    <div class="footer-col"><h4>Quick Links</h4><ul><li><a id="footerHome">Home</a></li><li><a id="footerShop">Shop</a></li><li><a id="footerContact">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li><a id="footerHome">Home</a></li><li><a id="footerShop">Shop</a></li><li><a id="footerCategories">Categories</a></li><li><a id="footerContact">Contact</a></li></ul></div>
     <div class="footer-col"><h4>Policies</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Return Policy</a></li><li><a href="#">Shipping Info</a></li></ul></div>
     <div class="footer-col"><h4>Connect</h4><ul><li><a href="#">Instagram</a></li><li><a href="#">Facebook</a></li><li><a href="#">Twitter</a></li><li><a href="#">WhatsApp Support</a></li></ul></div>
     <div class="footer-col"><h4>Contact Us</h4><p><i class="fas fa-phone"></i> +91 98765 43210</p><p><i class="fas fa-envelope"></i> support@bndmart.in</p><p><i class="fas fa-map-marker-alt"></i> Mumbai, India</p></div>
@@ -249,15 +324,23 @@
   </form>
   <p style="font-size:0.75rem; margin-top:1rem;">By placing order, you agree to our terms & conditions. Cash will be collected at delivery.</p>
 </div>
+<div class="cart-drawer" id="cartDrawer">
+  <div style="display:flex; justify-content:space-between;"><h3>Your Cart</h3><button id="closeCartBtn" style="background:none; font-size:1.5rem; border:none; cursor:pointer;">&times;</button></div>
+  <div class="cart-items" id="cartItemsList"></div>
+  <div class="cart-total" id="cartTotalPrice">Total: ₹0</div>
+  <button id="checkoutFromCartBtn" style="width:100%; margin-top:1rem; background:#2c7da0;">Proceed to Checkout (COD)</button>
+</div>
 <div class="scroll-top" id="scrollTopBtn"><i class="fas fa-arrow-up"></i></div>
+<div id="toastNotification" class="toast-notification"></div>
+
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
   AOS.init({ duration: 800, once: true });
 
-  // ========== कॉन्फिगरेशन ==========
-  const API_BASE_URL = '';  // रिकामे म्हणजे त्याच सर्व्हरवर रिक्वेस्ट जातील
+  // ========== CONFIG ==========
+  const API_BASE_URL = '';
 
-  // ---------- प्रॉडक्ट डेटा (8 प्रॉडक्ट्स) ----------
+  // ========== PRODUCT DATA ==========
   const products = [
     { id: 1, name: "Minimalist Backpack", price: 1999, category: "Fashion", description: "Water-resistant, laptop compartment, perfect for daily commute.", reviews: [{ name: "Arjun S.", rating: 5, comment: "Super stylish and durable!" }, { name: "Priya K.", rating: 4, comment: "Great quality, spacious." }],
       images: ["https://picsum.photos/id/20/800/600", "https://picsum.photos/id/21/800/600", "https://picsum.photos/id/22/800/600", "https://picsum.photos/id/23/800/600"] },
@@ -279,7 +362,7 @@
 
   const FEATURED_PRODUCT_ID = 2;
 
-  // लोकल स्टोरेजमधून रिव्ह्यूज लोड करा
+  // ========== LOCAL STORAGE FOR REVIEWS ==========
   let storedProducts = JSON.parse(localStorage.getItem("bndmartProducts"));
   if(storedProducts) {
     storedProducts.forEach(sp => {
@@ -301,10 +384,11 @@
     return { avg: avg.toFixed(1), stars, count: product.reviews.length };
   }
 
-  // DOM एलिमेंट्स
+  // ========== DOM ELEMENTS ==========
   const homeSection = document.getElementById('homeSection');
   const productDetailPage = document.getElementById('productDetailPage');
   const contactSection = document.getElementById('contactSection');
+  const categoryPage = document.getElementById('categoryPage');
   const productsGrid = document.getElementById('productsGrid');
   const featuredGrid = document.getElementById('featuredGrid');
   const searchInput = document.getElementById('searchInput');
@@ -312,10 +396,32 @@
   const clearSearchBtn = document.getElementById('clearSearchBtn');
   const featuredTitle = document.getElementById('featuredTitle');
   const allProductsTitle = document.getElementById('allProductsTitle');
+  const cartIconBtn = document.getElementById('cartIconBtn');
+  const cartDrawer = document.getElementById('cartDrawer');
+  const closeCartBtn = document.getElementById('closeCartBtn');
+  const cartOverlay = document.getElementById('checkoutOverlay'); // reuse overlay
+  const cartItemsList = document.getElementById('cartItemsList');
+  const cartTotalPrice = document.getElementById('cartTotalPrice');
+  const cartCountBadge = document.getElementById('cartCountBadge');
+  const checkoutFromCartBtn = document.getElementById('checkoutFromCartBtn');
+  const featuredProductSection = document.getElementById('featuredProductSection');
+  const carouselSection = document.getElementById('carouselSection');
 
   let currentFilterCategory = "All";
   let currentSearchTerm = "";
 
+  // ========== TOGGLE EXTRA SECTIONS BASED ON CATEGORY ==========
+  function toggleExtraSections() {
+    const isAllCategory = (currentFilterCategory === "All");
+    if (featuredProductSection) {
+      featuredProductSection.style.display = isAllCategory ? 'block' : 'none';
+    }
+    if (carouselSection) {
+      carouselSection.style.display = isAllCategory ? 'block' : 'none';
+    }
+  }
+
+  // ========== CATEGORY SLIDER & FILTER ==========
   const categories = ["All", ...new Set(products.map(p => p.category))];
   function renderCategorySlider() {
     const container = document.getElementById('categoryItems');
@@ -331,6 +437,8 @@
         renderCategorySlider();
         filterAndRenderProducts();
         updateTitles();
+        toggleExtraSections();       // hide/show extra sections based on category
+        showHome();                  // go back to home view
       });
     });
   }
@@ -359,6 +467,7 @@
     renderProductsGrid(filtered);
     renderFeaturedProducts(filtered);
     updateTitles();
+    toggleExtraSections();   // also call on search/init
   }
 
   function renderProductsGrid(productsArray) {
@@ -468,19 +577,100 @@
     });
   }
 
-  // प्रॉडक्ट डिटेल पेज
+  // ========== CART FUNCTIONS ==========
+  let cart = JSON.parse(localStorage.getItem('ecomCart')) || [];
+  function saveCart() {
+    localStorage.setItem('ecomCart', JSON.stringify(cart));
+    updateCartUI();
+    updateCartCounter();
+  }
+  function updateCartCounter() {
+    const totalQty = cart.reduce((sum, i) => sum + i.quantity, 0);
+    cartCountBadge.innerText = totalQty;
+  }
+  function updateCartUI() {
+    if(!cartItemsList) return;
+    if(cart.length === 0) {
+      cartItemsList.innerHTML = '<div style="padding:1rem; text-align:center;">Cart is empty</div>';
+      cartTotalPrice.innerText = 'Total: ₹0';
+      return;
+    }
+    let html = '', total = 0;
+    cart.forEach(item => {
+      total += item.price * item.quantity;
+      html += `
+        <div class="cart-item">
+          <img src="${item.image}" alt="${item.name}">
+          <div>
+            <strong>${item.name}</strong><br>
+            ₹${item.price} x ${item.quantity}
+            <div>
+              <button class="cart-inc" data-id="${item.id}">+</button>
+              <button class="cart-dec" data-id="${item.id}">-</button>
+              <button class="cart-remove" data-id="${item.id}" style="background:#e11d48; color:white; border:none; border-radius:20px; padding:2px 8px;">remove</button>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+    cartItemsList.innerHTML = html;
+    cartTotalPrice.innerText = `Total: ₹${total.toFixed(0)}`;
+    document.querySelectorAll('.cart-inc').forEach(btn => btn.addEventListener('click', (e) => { let id = parseInt(btn.dataset.id); changeQty(id, 1); }));
+    document.querySelectorAll('.cart-dec').forEach(btn => btn.addEventListener('click', (e) => { let id = parseInt(btn.dataset.id); changeQty(id, -1); }));
+    document.querySelectorAll('.cart-remove').forEach(btn => btn.addEventListener('click', (e) => { let id = parseInt(btn.dataset.id); removeFromCart(id); }));
+  }
+  function changeQty(id, delta) {
+    let idx = cart.findIndex(i => i.id === id);
+    if(idx !== -1) {
+      cart[idx].quantity += delta;
+      if(cart[idx].quantity <= 0) cart.splice(idx, 1);
+      saveCart();
+    }
+  }
+  function removeFromCart(id) {
+    cart = cart.filter(i => i.id !== id);
+    saveCart();
+  }
+  function addToCart(product) {
+    let existing = cart.find(i => i.id === product.id);
+    if(existing) existing.quantity++;
+    else cart.push({ ...product, quantity: 1, image: product.images[0] });
+    saveCart();
+    openCartDrawer();
+  }
+
+  function openCartDrawer() {
+    cartDrawer.classList.add('open');
+    if(cartOverlay) cartOverlay.classList.add('active');
+  }
+  function closeCartDrawer() {
+    cartDrawer.classList.remove('open');
+    if(cartOverlay) cartOverlay.classList.remove('active');
+  }
+  if(cartIconBtn) cartIconBtn.addEventListener('click', openCartDrawer);
+  if(closeCartBtn) closeCartBtn.addEventListener('click', closeCartDrawer);
+  if(cartOverlay) cartOverlay.addEventListener('click', closeCartDrawer);
+  if(checkoutFromCartBtn) {
+    checkoutFromCartBtn.addEventListener('click', () => {
+      if(cart.length === 0) { showNotification("Cart is empty", "error"); return; }
+      const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+      openCheckoutModal(cart.map(item => ({ ...item, quantity: item.quantity })), total);
+      closeCartDrawer();
+    });
+  }
+
+  // ========== PRODUCT DETAIL PAGE ==========
   let currentDetailProduct = null;
   function showProductDetail(product) {
     currentDetailProduct = product;
     homeSection.style.display = 'none';
     contactSection.style.display = 'none';
+    categoryPage.classList.remove('active');
     productDetailPage.classList.add('active');
-    
     document.getElementById('detailName').innerText = product.name;
     document.getElementById('detailDesc').innerText = product.description;
     document.getElementById('detailPrice').innerHTML = `₹${product.price}`;
     renderDetailReviews(product.reviews);
-    
     const mainImg = document.getElementById('mainProductImage');
     mainImg.src = product.images[0];
     const thumbContainer = document.getElementById('thumbnailContainer');
@@ -494,7 +684,10 @@
         thumb.classList.add('active');
       });
     });
-    
+    document.getElementById('detailAddToCart').onclick = () => {
+      addToCart(product);
+      showNotification(`${product.name} added to cart!`, 'success');
+    };
     document.getElementById('detailBuyNow').onclick = () => {
       openCheckoutModal([{ ...product, quantity: 1 }], product.price);
     };
@@ -531,24 +724,60 @@
     }
   });
 
-  document.getElementById('backToShopBtn').addEventListener('click', () => {
+  document.getElementById('backToShopBtn').addEventListener('click', showHome);
+
+  // ========== NAVIGATION ==========
+  function showHome() {
     homeSection.style.display = 'block';
     contactSection.style.display = 'none';
+    categoryPage.classList.remove('active');
     productDetailPage.classList.remove('active');
-  });
+  }
+  function showContact() {
+    homeSection.style.display = 'none';
+    contactSection.style.display = 'block';
+    categoryPage.classList.remove('active');
+    productDetailPage.classList.remove('active');
+  }
+  function showCategoryPage() {
+    homeSection.style.display = 'none';
+    contactSection.style.display = 'none';
+    productDetailPage.classList.remove('active');
+    categoryPage.classList.add('active');
+    renderCategoryGrid();
+  }
+  function renderCategoryGrid() {
+    const grid = document.getElementById('categoryGrid');
+    const uniqueCats = [...new Set(products.map(p => p.category))];
+    grid.innerHTML = uniqueCats.map(cat => `
+      <div class="category-card" data-category="${cat}">
+        <i class="fas ${cat === 'Electronics' ? 'fa-microchip' : cat === 'Fashion' ? 'fa-tshirt' : cat === 'Accessories' ? 'fa-glasses' : 'fa-shoe-prints'}"></i>
+        <h3>${cat}</h3>
+        <p>${products.filter(p => p.category === cat).length} products</p>
+      </div>
+    `).join('');
+    document.querySelectorAll('.category-card').forEach(card => {
+      card.addEventListener('click', () => {
+        currentFilterCategory = card.dataset.category;
+        renderCategorySlider();
+        filterAndRenderProducts();
+        updateTitles();
+        toggleExtraSections();
+        showHome();
+      });
+    });
+  }
 
-  // नेव्हिगेशन
-  function showHome() { homeSection.style.display = 'block'; contactSection.style.display = 'none'; productDetailPage.classList.remove('active'); }
-  function showContact() { homeSection.style.display = 'none'; contactSection.style.display = 'block'; productDetailPage.classList.remove('active'); }
   document.getElementById('navHome').addEventListener('click', showHome);
   document.getElementById('navShop').addEventListener('click', () => { showHome(); document.getElementById('productsGrid').scrollIntoView({ behavior: 'smooth' }); });
-  document.getElementById('navCategories').addEventListener('click', () => { showHome(); document.querySelector('.category-slider').scrollIntoView({ behavior: 'smooth' }); });
+  document.getElementById('navCategoriesPage').addEventListener('click', showCategoryPage);
   document.getElementById('navContact').addEventListener('click', showContact);
   document.getElementById('footerHome').addEventListener('click', showHome);
   document.getElementById('footerShop').addEventListener('click', () => { showHome(); document.getElementById('productsGrid').scrollIntoView({ behavior: 'smooth' }); });
+  document.getElementById('footerCategories').addEventListener('click', showCategoryPage);
   document.getElementById('footerContact').addEventListener('click', showContact);
 
-  // सर्च
+  // ========== SEARCH ==========
   let debounceTimer;
   function performSearch() {
     clearTimeout(debounceTimer);
@@ -561,7 +790,7 @@
   searchInput.addEventListener('keyup', performSearch);
   clearSearchBtn.addEventListener('click', () => { searchInput.value = ''; currentSearchTerm = ''; filterAndRenderProducts(); });
 
-  // चेकआउट मोडल (बॅकएंडला डेटा पाठवा)
+  // ========== CHECKOUT MODAL ==========
   const checkoutModalElem = document.getElementById('checkoutModal');
   const checkoutOverlayElem = document.getElementById('checkoutOverlay');
   let currentOrderItems = [];
@@ -614,7 +843,7 @@
         body: JSON.stringify(orderData)
       });
       if (response.ok) {
-        alert("✅ Order placed successfully! You will receive a confirmation email shortly.");
+        showNotification("✅ Order placed successfully! You will receive a confirmation email shortly.", "success");
         closeCheckoutModal();
         checkoutForm.reset();
       } else {
@@ -622,11 +851,11 @@
       }
     } catch (err) {
       console.error(err);
-      alert("❌ Failed to place order. Please try again later.");
+      showNotification("❌ Failed to place order. Please try again later.", "error");
     }
   });
 
-  // कॉन्टॅक्ट फॉर्म
+  // ========== CONTACT FORM ==========
   const contactFormElem = document.getElementById('contactForm');
   const contactStatus = document.getElementById('contactStatus');
   contactFormElem.addEventListener('submit', async (e) => {
@@ -655,25 +884,60 @@
     }
   });
 
-  // स्क्रोल टॉप
+  // ========== CAROUSEL ==========
+  function renderCarousel() {
+    const container = document.getElementById('carouselContainer');
+    const carouselProducts = products.slice(0, 8);
+    container.innerHTML = carouselProducts.map(p => `
+      <div class="carousel-item" data-id="${p.id}">
+        <img src="${p.images[0]}" alt="${p.name}">
+        <div class="carousel-item-info">
+          <h4>${p.name}</h4>
+          <p>₹${p.price}</p>
+        </div>
+      </div>
+    `).join('');
+    document.querySelectorAll('.carousel-item').forEach(item => {
+      item.addEventListener('click', () => {
+        let id = parseInt(item.dataset.id);
+        let product = products.find(p => p.id === id);
+        showProductDetail(product);
+      });
+    });
+  }
+
+  // ========== TOAST NOTIFICATION ==========
+  function showNotification(message, type = 'success') {
+    const toast = document.getElementById('toastNotification');
+    toast.textContent = message;
+    toast.className = `toast-notification ${type}`;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // ========== INIT ==========
+  function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+  renderCategorySlider();
+  filterAndRenderProducts();
+  renderFeaturedProduct();
+  renderCarousel();
+  saveProductsReviews();
+  updateCartUI();
+  updateCartCounter();
+  toggleExtraSections();   // initial visibility
+  showHome();
+
+  // Scroll to top
   const scrollBtn = document.getElementById('scrollTopBtn');
   window.addEventListener('scroll', () => { if(window.scrollY > 400) scrollBtn.classList.add('show'); else scrollBtn.classList.remove('show'); });
   scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-  // हॅम्बर्गर मेनू
+  // Hamburger menu
   const hamburger = document.getElementById('hamburgerBtn');
   const navLinks = document.getElementById('navLinks');
   hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
   document.querySelectorAll('.nav-links a').forEach(link => link.addEventListener('click', () => { if(window.innerWidth <= 768) navLinks.classList.remove('active'); }));
-
-  function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
-
-  // इनिशियलायझेशन
-  renderCategorySlider();
-  filterAndRenderProducts();
-  renderFeaturedProduct();
-  saveProductsReviews();
-  showHome();
 </script>
 </body>
 </html>
