@@ -9,8 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <style>
-    /* ========== ALL CSS (exactly as in your working version) ========== */
-    /* (paste your full CSS here – same as before) */
+    /* ========== ALL CSS (same as before – no changes) ========== */
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
     body { background:#f8fafc; color:#0f172a; scroll-behavior:smooth; }
     .announcement { background:linear-gradient(135deg,#1e293b,#0f172a); color:white; text-align:center; padding:12px; font-size:0.9rem; font-weight:500; position:sticky; top:0; z-index:102; }
@@ -362,8 +361,8 @@
   // ========== CONFIGURATION ==========
   const API_BASE_URL = '';  // leave empty when served from same origin
 
-  // ---------- PRODUCT DATA (without reviews) ----------
-  const baseProducts = [
+  // ---------- PRODUCT DATA (no reviews inside) ----------
+  const products = [
     { id: 1, name: "Minimalist Backpack", price: 1999, category: "Fashion", description: "Water-resistant, laptop compartment, perfect for daily commute.",
       images: ["https://picsum.photos/id/20/800/600", "https://picsum.photos/id/21/800/600", "https://picsum.photos/id/22/800/600", "https://picsum.photos/id/23/800/600"] },
     { id: 2, name: "Wireless Headphones", price: 2999, category: "Electronics", description: "Noise cancelling, 30h battery, premium sound.",
@@ -379,90 +378,82 @@
     { id: 7, name: "Bluetooth Speaker", price: 1899, category: "Electronics", description: "360° sound, waterproof, 12h playtime.",
       images: ["https://picsum.photos/id/29/800/600", "https://picsum.photos/id/30/800/600", "https://picsum.photos/id/31/800/600"] },
     { id: 8, name: "Sunglasses", price: 799, category: "Accessories", description: "UV protection, polarized lenses.",
-      images: ["https://picsum.photos/id/96/800/600", "https://picsum.photos/id/97/800/600", "https://picsum.photos/id/98/800/600"] },
-    { id: 9,
-  name: "New Product Name",
-  price: 1299,
-  category: "Electronics",   // or "Fashion", "Accessories", "Footwear"
-  description: "Short description of the new product.",
-  images: [
-    "https://picsum.photos/id/101/800/600",
-    "https://picsum.photos/id/102/800/600"
-  ]
-}
+      images: ["https://picsum.photos/id/96/800/600", "https://picsum.photos/id/97/800/600", "https://picsum.photos/id/98/800/600"] }
   ];
 
   // ----- Customize these arrays -----
-  const FEATURED_PRODUCT_ID = 9;
+  const FEATURED_PRODUCT_ID = 5;
   const CAROUSEL_PRODUCT_IDS = [5, 3, 7, 1, 4, 6, 2, 8];
 
-  // We'll store the full products array after loading reviews
-  let products = [];
+  // ----- Global cache for reviews JSON -----
+  let reviewsCache = null;
 
-  // ----- Load reviews from JSON file -----
-  async function loadReviews() {
+  // ----- Load reviews.json once and cache -----
+  async function loadReviewsJSON() {
+    if (reviewsCache !== null) return reviewsCache;
     try {
       const response = await fetch('reviews.json');
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
-      return data.reviews || {};
+      reviewsCache = data;
+      return data;
     } catch (error) {
-      console.warn("Could not load reviews.json, using empty reviews:", error);
+      console.error('Failed to load reviews.json:', error);
       return {};
     }
   }
 
-  // ----- Merge reviews into baseProducts and then apply localStorage user reviews -----
-  async function initializeProducts() {
-    const reviewsMap = await loadReviews();
-    // Clone baseProducts and add reviews
-    products = baseProducts.map(p => ({
-      ...p,
-      reviews: reviewsMap[p.id] ? [...reviewsMap[p.id]] : []
-    }));
+  // ----- Get reviews for a specific product, merging with user reviews -----
+  async function getProductReviews(productId) {
+    const allReviews = await loadReviewsJSON();
+    const serverReviews = allReviews[productId] || [];
 
-    // Overwrite with user-submitted reviews from localStorage (they take priority)
-    const storedProducts = JSON.parse(localStorage.getItem("bndmartProducts"));
-    if (storedProducts) {
-      storedProducts.forEach(sp => {
-        const prod = products.find(p => p.id === sp.id);
-        if (prod) prod.reviews = sp.reviews;
-      });
+    // Load user reviews from localStorage
+    const userReviews = JSON.parse(localStorage.getItem(`userReviews_${productId}`)) || [];
+
+    // Combine: user reviews first (most recent), then server reviews
+    const merged = [...userReviews, ...serverReviews];
+    return merged;
+  }
+
+  // ----- Display reviews in the detail page -----
+  function displayReviews(reviews) {
+    const container = document.getElementById('detailReviewsList');
+    if (!container) return;
+    if (!reviews || reviews.length === 0) {
+      container.innerHTML = '<p>No reviews yet. Be the first to review!</p>';
+      return;
     }
-
-    // Now that reviews are loaded, initialise the UI
-    afterProductsReady();
+    container.innerHTML = reviews.map(r => {
+      const starHtml = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+      return `
+        <div class="review-item">
+          <strong>${escapeHtml(r.name)}</strong>
+          <span class="stars">${starHtml}</span>
+          <p>${escapeHtml(r.comment)}</p>
+        </div>
+      `;
+    }).join('');
   }
 
-  // ----- Everything that depends on `products` -----
-  function afterProductsReady() {
-    // Save the current reviews (so user reviews persist)
-    saveProductsReviews();
-
-    // Now start the rest of the initialisation
-    renderCategorySlider();
-    filterAndRenderProducts();
-    renderFeaturedProduct();
-    renderCarousel();
-    updateCartUI();
-    updateCartCounter();
-    toggleExtraSections();
-    showHome();
+  // ----- Refresh reviews for the current product (after user submits) -----
+  async function refreshProductReviews(productId) {
+    const reviews = await getProductReviews(productId);
+    displayReviews(reviews);
   }
 
-  // ----- Save reviews to localStorage (user‑submitted) -----
-  function saveProductsReviews() {
-    const toStore = products.map(p => ({ id: p.id, reviews: p.reviews }));
-    localStorage.setItem("bndmartProducts", JSON.stringify(toStore));
-  }
-
-  // ----- Helper functions (same as before) -----
-  function getProductRating(product) {
-    if (!product.reviews || product.reviews.length === 0) return { avg: 0, stars: "☆☆☆☆☆", count: 0 };
-    const sum = product.reviews.reduce((acc, r) => acc + r.rating, 0);
-    const avg = sum / product.reviews.length;
-    const fullStars = Math.round(avg);
-    const stars = "★".repeat(fullStars) + "☆".repeat(5 - fullStars);
-    return { avg: avg.toFixed(1), stars, count: product.reviews.length };
+  // ----- Save a new user review -----
+  async function addUserReview(productId, name, rating, comment) {
+    if (!name.trim() || !comment.trim()) {
+      alert("Please fill name and comment.");
+      return false;
+    }
+    const userReview = { name: name.trim(), rating: parseInt(rating), comment: comment.trim() };
+    const existing = JSON.parse(localStorage.getItem(`userReviews_${productId}`)) || [];
+    existing.unshift(userReview);
+    localStorage.setItem(`userReviews_${productId}`, JSON.stringify(existing));
+    await refreshProductReviews(productId);
+    return true;
   }
 
   // ----- DOM elements -----
@@ -491,12 +482,23 @@
   let currentFilterCategory = "All";
   let currentSearchTerm = "";
 
+  // ----- Rating helper (for product card & featured product) -----
+  async function getProductRating(product) {
+    const reviews = await getProductReviews(product.id);
+    if (!reviews || reviews.length === 0) return { avg: 0, stars: "☆☆☆☆☆", count: 0 };
+    let sum = 0;
+    reviews.forEach(r => sum += r.rating);
+    const avg = sum / reviews.length;
+    const fullStars = Math.round(avg);
+    const stars = "★".repeat(fullStars) + "☆".repeat(5 - fullStars);
+    return { avg: avg.toFixed(1), stars, count: reviews.length };
+  }
+
   // ----- Toggle extra sections (hide when category is not "All") -----
   function toggleExtraSections() {
     const isAllCategory = (currentFilterCategory === "All");
     featuredProductSection.style.display = isAllCategory ? 'block' : 'none';
     carouselSection.style.display = isAllCategory ? 'block' : 'none';
-    // Also hide the entire "Top Rated" section when category is not All
     const topRatedTitle = document.getElementById('featuredTitle');
     const topRatedGrid = document.getElementById('featuredGrid');
     if (topRatedTitle) topRatedTitle.style.display = isAllCategory ? 'block' : 'none';
@@ -504,7 +506,7 @@
   }
 
   // ----- Category slider -----
-  const categories = ["All", ...new Set(baseProducts.map(p => p.category))];
+  const categories = ["All", ...new Set(products.map(p => p.category))];
   function renderCategorySlider() {
     const container = document.getElementById('categoryItems');
     container.innerHTML = categories.map(cat => `
@@ -535,7 +537,7 @@
     }
   }
 
-  function filterAndRenderProducts() {
+  async function filterAndRenderProducts() {
     let filtered = products;
     if (currentFilterCategory !== "All") {
       filtered = filtered.filter(p => p.category === currentFilterCategory);
@@ -546,18 +548,20 @@
         p.price.toString().includes(currentSearchTerm)
       );
     }
-    renderProductsGrid(filtered);
-    renderFeaturedProducts(filtered);
+    await renderProductsGrid(filtered);
+    await renderFeaturedProducts(filtered);
     updateTitles();
   }
 
-  function renderProductsGrid(productsArray) {
+  async function renderProductsGrid(productsArray) {
     if (!productsArray.length) {
       productsGrid.innerHTML = '<div style="text-align:center; padding:3rem;">No products found.</div>';
       return;
     }
-    productsGrid.innerHTML = productsArray.map(p => {
-      const rating = getProductRating(p);
+    const ratingPromises = productsArray.map(p => getProductRating(p));
+    const ratings = await Promise.all(ratingPromises);
+    productsGrid.innerHTML = productsArray.map((p, idx) => {
+      const rating = ratings[idx];
       return `
         <div class="product-card" data-id="${p.id}">
           <div class="product-img-container">
@@ -575,15 +579,19 @@
     attachProductEvents();
   }
 
-  function renderFeaturedProducts(filteredList) {
-    const sorted = [...filteredList].sort((a, b) => {
-      const ra = a.reviews.length ? a.reviews.reduce((s, r) => s + r.rating, 0) / a.reviews.length : 0;
-      const rb = b.reviews.length ? b.reviews.reduce((s, r) => s + r.rating, 0) / b.reviews.length : 0;
+  async function renderFeaturedProducts(filteredList) {
+    let sorted = [...filteredList];
+    const ratingPromises = sorted.map(p => getProductRating(p));
+    const ratings = await Promise.all(ratingPromises);
+    sorted.sort((a, b) => {
+      const ra = parseFloat(ratings[sorted.indexOf(a)].avg) || 0;
+      const rb = parseFloat(ratings[sorted.indexOf(b)].avg) || 0;
       return rb - ra;
     });
-    const featured = sorted.slice(0, 4);
-    featuredGrid.innerHTML = featured.map(p => {
-      const rating = getProductRating(p);
+    let featured = sorted.slice(0, 4);
+    const featuredRatings = await Promise.all(featured.map(p => getProductRating(p)));
+    featuredGrid.innerHTML = featured.map((p, idx) => {
+      const rating = featuredRatings[idx];
       return `
         <div class="product-card" data-id="${p.id}">
           <div class="product-img-container">
@@ -601,10 +609,10 @@
     attachProductEvents();
   }
 
-  function renderFeaturedProduct() {
+  async function renderFeaturedProduct() {
     const featuredProduct = products.find(p => p.id === FEATURED_PRODUCT_ID);
     if (!featuredProduct) return;
-    const rating = getProductRating(featuredProduct);
+    const rating = await getProductRating(featuredProduct);
     const starDisplay = "★".repeat(Math.round(parseFloat(rating.avg))) + "☆".repeat(5 - Math.round(parseFloat(rating.avg)));
     const html = `
       <div class="featured-product-container">
@@ -653,8 +661,8 @@
     `).join('');
     document.querySelectorAll('.carousel-item').forEach(item => {
       item.addEventListener('click', () => {
-        const id = parseInt(item.dataset.id);
-        const product = products.find(p => p.id === id);
+        let id = parseInt(item.dataset.id);
+        let product = products.find(p => p.id === id);
         showProductDetail(product);
       });
     });
@@ -664,22 +672,22 @@
     document.querySelectorAll('.buy-now-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const id = parseInt(btn.dataset.id);
-        const product = products.find(p => p.id === id);
+        let id = parseInt(btn.dataset.id);
+        let product = products.find(p => p.id === id);
         openCheckoutModal([{ ...product, quantity: 1 }], product.price);
       });
     });
     document.querySelectorAll('.product-card').forEach(card => {
       card.addEventListener('click', (e) => {
         if (e.target.classList.contains('buy-now-btn')) return;
-        const id = parseInt(card.dataset.id);
-        const product = products.find(p => p.id === id);
+        let id = parseInt(card.dataset.id);
+        let product = products.find(p => p.id === id);
         showProductDetail(product);
       });
     });
   }
 
-  // ----- Cart functionality (same as before) -----
+  // ----- Cart functionality (unchanged) -----
   let cart = JSON.parse(localStorage.getItem('ecomCart')) || [];
   function saveCart() {
     localStorage.setItem('ecomCart', JSON.stringify(cart));
@@ -717,12 +725,12 @@
     });
     cartItemsList.innerHTML = html;
     cartTotalPrice.innerText = `Total: ₹${total.toFixed(0)}`;
-    document.querySelectorAll('.cart-inc').forEach(btn => btn.addEventListener('click', (e) => { const id = parseInt(btn.dataset.id); changeQty(id, 1); }));
-    document.querySelectorAll('.cart-dec').forEach(btn => btn.addEventListener('click', (e) => { const id = parseInt(btn.dataset.id); changeQty(id, -1); }));
-    document.querySelectorAll('.cart-remove').forEach(btn => btn.addEventListener('click', (e) => { const id = parseInt(btn.dataset.id); removeFromCart(id); }));
+    document.querySelectorAll('.cart-inc').forEach(btn => btn.addEventListener('click', (e) => { let id = parseInt(btn.dataset.id); changeQty(id, 1); }));
+    document.querySelectorAll('.cart-dec').forEach(btn => btn.addEventListener('click', (e) => { let id = parseInt(btn.dataset.id); changeQty(id, -1); }));
+    document.querySelectorAll('.cart-remove').forEach(btn => btn.addEventListener('click', (e) => { let id = parseInt(btn.dataset.id); removeFromCart(id); }));
   }
   function changeQty(id, delta) {
-    const idx = cart.findIndex(i => i.id === id);
+    let idx = cart.findIndex(i => i.id === id);
     if (idx !== -1) {
       cart[idx].quantity += delta;
       if (cart[idx].quantity <= 0) cart.splice(idx, 1);
@@ -734,7 +742,7 @@
     saveCart();
   }
   function addToCart(product) {
-    const existing = cart.find(i => i.id === product.id);
+    let existing = cart.find(i => i.id === product.id);
     if (existing) existing.quantity++;
     else cart.push({ ...product, quantity: 1, image: product.images[0] });
     saveCart();
@@ -763,7 +771,7 @@
 
   // ----- Product Detail Page -----
   let currentDetailProduct = null;
-  function showProductDetail(product) {
+  async function showProductDetail(product) {
     currentDetailProduct = product;
     homeSection.style.display = 'none';
     contactSection.style.display = 'none';
@@ -772,7 +780,18 @@
     document.getElementById('detailName').innerText = product.name;
     document.getElementById('detailDesc').innerText = product.description;
     document.getElementById('detailPrice').innerHTML = `₹${product.price}`;
-    renderDetailReviews(product.reviews);
+
+    // Load and display reviews
+    const reviewsContainer = document.getElementById('detailReviewsList');
+    reviewsContainer.innerHTML = '<div class="loading">Loading reviews...</div>';
+    try {
+      const reviews = await getProductReviews(product.id);
+      displayReviews(reviews);
+    } catch (error) {
+      console.error('Error loading reviews:', error);
+      reviewsContainer.innerHTML = '<p>Failed to load reviews.</p>';
+    }
+
     const mainImg = document.getElementById('mainProductImage');
     mainImg.src = product.images[0];
     const thumbContainer = document.getElementById('thumbnailContainer');
@@ -795,32 +814,14 @@
     };
   }
 
-  function renderDetailReviews(reviews) {
-    const container = document.getElementById('detailReviewsList');
-    if (!reviews || reviews.length === 0) { container.innerHTML = '<p>No reviews yet. Be the first!</p>'; return; }
-    let html = '';
-    reviews.forEach(r => {
-      const starHtml = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
-      html += `<div class="review-item"><strong>${escapeHtml(r.name)}</strong> <span class="stars">${starHtml}</span><p>${escapeHtml(r.comment)}</p></div>`;
-    });
-    container.innerHTML = html;
-  }
-
-  function addReviewToCurrentProduct(name, rating, comment) {
-    if (!name.trim() || !comment.trim()) { alert("Please fill name and comment."); return false; }
-    currentDetailProduct.reviews.unshift({ name: name.trim(), rating: parseInt(rating), comment: comment.trim() });
-    saveProductsReviews();
-    renderDetailReviews(currentDetailProduct.reviews);
-    filterAndRenderProducts();
-    renderFeaturedProduct();
-    return true;
-  }
-
-  document.getElementById('submitDetailReview').addEventListener('click', () => {
+  // ----- Submit review from detail page -----
+  document.getElementById('submitDetailReview').addEventListener('click', async () => {
+    if (!currentDetailProduct) return;
     const name = document.getElementById('detailReviewName').value;
     const rating = document.getElementById('detailReviewRating').value;
     const comment = document.getElementById('detailReviewComment').value;
-    if (addReviewToCurrentProduct(name, rating, comment)) {
+    const success = await addUserReview(currentDetailProduct.id, name, rating, comment);
+    if (success) {
       document.getElementById('detailReviewName').value = '';
       document.getElementById('detailReviewComment').value = '';
     }
@@ -850,12 +851,12 @@
   }
   function renderCategoryGrid() {
     const grid = document.getElementById('categoryGrid');
-    const uniqueCats = [...new Set(baseProducts.map(p => p.category))];
+    const uniqueCats = [...new Set(products.map(p => p.category))];
     grid.innerHTML = uniqueCats.map(cat => `
       <div class="category-card" data-category="${cat}">
         <i class="fas ${cat === 'Electronics' ? 'fa-microchip' : cat === 'Fashion' ? 'fa-tshirt' : cat === 'Accessories' ? 'fa-glasses' : 'fa-shoe-prints'}"></i>
         <h3>${cat}</h3>
-        <p>${baseProducts.filter(p => p.category === cat).length} products</p>
+        <p>${products.filter(p => p.category === cat).length} products</p>
       </div>
     `).join('');
     document.querySelectorAll('.category-card').forEach(card => {
@@ -892,7 +893,7 @@
   searchInput.addEventListener('keyup', performSearch);
   clearSearchBtn.addEventListener('click', () => { searchInput.value = ''; currentSearchTerm = ''; filterAndRenderProducts(); });
 
-  // ----- Checkout Modal (sends to Node.js) -----
+  // ----- Checkout Modal -----
   const checkoutModalElem = document.getElementById('checkoutModal');
   const checkoutOverlayElem = document.getElementById('checkoutOverlay');
   let currentOrderItems = [];
@@ -986,7 +987,7 @@
     }
   });
 
-  // ----- Toast Notification -----
+  // ----- Toast -----
   function showNotification(message, type = 'success') {
     const toast = document.getElementById('toastNotification');
     toast.textContent = message;
@@ -998,8 +999,17 @@
   // ----- Helper -----
   function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
 
-  // ----- Start everything -----
-  initializeProducts();
+  // ----- Initialization -----
+  (async function init() {
+    renderCategorySlider();
+    await filterAndRenderProducts();
+    renderFeaturedProduct();
+    renderCarousel();
+    updateCartUI();
+    updateCartCounter();
+    toggleExtraSections();
+    showHome();
+  })();
 
   // Scroll to top
   const scrollBtn = document.getElementById('scrollTopBtn');
