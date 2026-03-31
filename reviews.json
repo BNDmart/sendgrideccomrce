@@ -1,80 +1,78 @@
 {
-  "reviews": {
-    "1": [
-      { "name": "Arjun S.", "rating": 5, "comment": "Super stylish and durable!" },
-      { "name": "Priya K.", "rating": 4, "comment": "Great quality, spacious." },
-      { "name": "Rahul M.", "rating": 5, "comment": "Perfect minimalist design. Fits my laptop and daily essentials without bulk." },
-      { "name": "Sneha V.", "rating": 5, "comment": "Love the clean look. The material feels premium and water-resistant." },
-      { "name": "Vikram P.", "rating": 4, "comment": "Very comfortable straps. Only wish there was an extra pocket inside." },
-      { "name": "Anjali N.", "rating": 5, "comment": "Exactly what I needed for work. Sleek, professional, and lightweight." },
-      { "name": "Karthik R.", "rating": 5, "comment": "Impressive build quality. Zippers are smooth and sturdy." },
-      { "name": "Divya L.", "rating": 4, "comment": "Good backpack, but the color faded slightly after a month of use." },
-      { "name": "Amit T.", "rating": 5, "comment": "Best minimalist backpack I've owned. Simple yet highly functional." },
-      { "name": "Neha G.", "rating": 5, "comment": "Roomy enough for my 15-inch laptop and gym clothes. Highly recommend." },
-      { "name": "Siddharth B.", "rating": 4, "comment": "Nice design, but the shoulder straps could be a bit more padded." },
-      { "name": "Pooja D.", "rating": 5, "comment": "Very elegant and understated. Goes with everything." },
-      { "name": "Rohan K.", "rating": 5, "comment": "Surprisingly spacious for its slim profile. Great for travel." },
-      { "name": "Meera J.", "rating": 3, "comment": "Looks nice, but the stitching on the handle came loose after two weeks." },
-      { "name": "Akash S.", "rating": 5, "comment": "Excellent value for money. Durable and stylish." },
-      { "name": "Shreya P.", "rating": 4, "comment": "Loving the minimal aesthetic. Would be perfect with a luggage strap." },
-      { "name": "Manish C.", "rating": 5, "comment": "Very comfortable even when fully loaded. Great for daily commute." },
-      { "name": "Kavita R.", "rating": 5, "comment": "Classy and functional. The fabric repels water well." },
-      { "name": "Tarun A.", "rating": 4, "comment": "Good backpack, but the front pocket is a bit tight." },
-      { "name": "Swati M.", "rating": 5, "comment": "Absolutely love it! Perfect for college and casual outings." },
-      { "name": "Nikhil V.", "rating": 5, "comment": "Sleek design and excellent build. My second purchase from this brand." },
-      { "name": "Isha S.", "rating": 5, "comment": "Lightweight and ergonomic. No back pain even after long hours." },
-      { "name": "Gaurav B.", "rating": 4, "comment": "Very neat look. Would have liked a hidden pocket for valuables." },
-      { "name": "Tanvi K.", "rating": 5, "comment": "Minimalist perfection. Fits my 13-inch MacBook perfectly." },
-      { "name": "Rajesh N.", "rating": 5, "comment": "Sturdy zippers and quality fabric. Worth every penny." },
-      { "name": "Shalini D.", "rating": 4, "comment": "Nice backpack, but the color option I wanted was out of stock." },
-      { "name": "Ankit J.", "rating": 5, "comment": "Great for travel. Fits under airplane seat easily." },
-      { "name": "Komal G.", "rating": 5, "comment": "Very chic and functional. I get compliments all the time." },
-      { "name": "Harsh V.", "rating": 3, "comment": "Decent quality, but the straps are a bit too short for my frame." },
-      { "name": "Ritika S.", "rating": 5, "comment": "Love the simple design and the multiple compartments." },
-      { "name": "Deepak P.", "rating": 5, "comment": "Excellent craftsmanship. Feels durable and looks premium." },
-      { "name": "Anushka T.", "rating": 4, "comment": "Good everyday backpack. The water bottle holder could be deeper." },
-      { "name": "Varun M.", "rating": 5, "comment": "Exactly as described. Minimalist, sturdy, and very practical." },
-      { "name": "Pallavi L.", "rating": 5, "comment": "Super comfortable and lightweight. Perfect for office." },
-      { "name": "Saurabh K.", "rating": 4, "comment": "Nice design, but the fabric attracts lint easily." },
-      { "name": "Riya C.", "rating": 5, "comment": "Sleek and spacious. I can carry my laptop, books, and lunch box easily." },
-      { "name": "Avinash S.", "rating": 5, "comment": "Great product. The minimalist look is very appealing." },
-      { "name": "Nidhi A.", "rating": 5, "comment": "Very sturdy and well-made. Highly recommend." },
-      { "name": "Kunal W.", "rating": 4, "comment": "Good value. Only minor complaint is the lack of a key clip." },
-      { "name": "Sonal B.", "rating": 5, "comment": "Perfect size for daily use. Looks stylish and feels durable." },
-      { "name": "Pranav R.", "rating": 5, "comment": "Best purchase this year. Simple, functional, and elegant." },
-      { "name": "Ananya D.", "rating": 4, "comment": "Comfortable to wear, but the main compartment zipper gets stuck sometimes." },
-      { "name": "Mohit S.", "rating": 5, "comment": "Love the minimalist aesthetic. Very professional." },
-      { "name": "Karishma J.", "rating": 5, "comment": "Excellent quality. The fabric is easy to clean." },
-      { "name": "Yash P.", "rating": 5, "comment": "Surprisingly roomy. Fits my 16-inch laptop with ease." },
-      { "name": "Chitra M.", "rating": 4, "comment": "Nice backpack, but the padding on the back could be thicker." },
-      { "name": "Aditya G.", "rating": 5, "comment": "Super sleek and functional. Perfect for minimalists." },
-      { "name": "Pooja R.", "rating": 5, "comment": "Great for travel and everyday use. Lightweight and sturdy." },
-      { "name": "Vishal N.", "rating": 5, "comment": "Very satisfied with the build and design. Will buy again." },
-      { "name": "Monika S.", "rating": 4, "comment": "Good product, but delivery was a bit slow." },
-      { "name": "Karan B.", "rating": 5, "comment": "Excellent backpack. Looks premium and feels comfortable." },
-      { "name": "Shivani T.", "rating": 5, "comment": "Love it! The minimalist design is exactly what I wanted." }
-    ],
-    "2": [
-      { "name": "survase M.", "rating": 5, "comment": "Best headphones I've owned." },
-      { "name": "snehal V.", "rating": 4, "comment": "Comfortable, battery life is solid." }
-    ],
-    "3": [
-      { "name": "Simran P.", "rating": 5, "comment": "Super soft and cozy!" }
-    ],
-    "4": [
-      { "name": "Vikram R.", "rating": 4, "comment": "Great features, sleek design." }
-    ],
-    "5": [
-      { "name": "Anjali D.", "rating": 5, "comment": "Minimalist and elegant." }
-    ],
-    "6": [
-      { "name": "Kunal T.", "rating": 4, "comment": "Very comfy for walking." }
-    ],
-    "7": [
-      { "name": "Sneha R.", "rating": 5, "comment": "Amazing sound quality!" }
-    ],
-    "8": [
-      { "name": "Raj K.", "rating": 4, "comment": "Stylish and comfortable." }
-    ]
-  }
+  "1": [
+    { "name": "Arjun S.", "rating": 5, "comment": "Super stylish and durable!" },
+    { "name": "Priya K.", "rating": 4, "comment": "Great quality, spacious." },
+    { "name": "Rahul M.", "rating": 5, "comment": "Perfect minimalist design. Fits my laptop and daily essentials without bulk." },
+    { "name": "Sneha V.", "rating": 5, "comment": "Love the clean look. The material feels premium and water-resistant." },
+    { "name": "Vikram P.", "rating": 4, "comment": "Very comfortable straps. Only wish there was an extra pocket inside." },
+    { "name": "Anjali N.", "rating": 5, "comment": "Exactly what I needed for work. Sleek, professional, and lightweight." },
+    { "name": "Karthik R.", "rating": 5, "comment": "Impressive build quality. Zippers are smooth and sturdy." },
+    { "name": "Divya L.", "rating": 4, "comment": "Good backpack, but the color faded slightly after a month of use." },
+    { "name": "Amit T.", "rating": 5, "comment": "Best minimalist backpack I've owned. Simple yet highly functional." },
+    { "name": "Neha G.", "rating": 5, "comment": "Roomy enough for my 15-inch laptop and gym clothes. Highly recommend." },
+    { "name": "Siddharth B.", "rating": 4, "comment": "Nice design, but the shoulder straps could be a bit more padded." },
+    { "name": "Pooja D.", "rating": 5, "comment": "Very elegant and understated. Goes with everything." },
+    { "name": "Rohan K.", "rating": 5, "comment": "Surprisingly spacious for its slim profile. Great for travel." },
+    { "name": "Meera J.", "rating": 3, "comment": "Looks nice, but the stitching on the handle came loose after two weeks." },
+    { "name": "Akash S.", "rating": 5, "comment": "Excellent value for money. Durable and stylish." },
+    { "name": "Shreya P.", "rating": 4, "comment": "Loving the minimal aesthetic. Would be perfect with a luggage strap." },
+    { "name": "Manish C.", "rating": 5, "comment": "Very comfortable even when fully loaded. Great for daily commute." },
+    { "name": "Kavita R.", "rating": 5, "comment": "Classy and functional. The fabric repels water well." },
+    { "name": "Tarun A.", "rating": 4, "comment": "Good backpack, but the front pocket is a bit tight." },
+    { "name": "Swati M.", "rating": 5, "comment": "Absolutely love it! Perfect for college and casual outings." },
+    { "name": "Nikhil V.", "rating": 5, "comment": "Sleek design and excellent build. My second purchase from this brand." },
+    { "name": "Isha S.", "rating": 5, "comment": "Lightweight and ergonomic. No back pain even after long hours." },
+    { "name": "Gaurav B.", "rating": 4, "comment": "Very neat look. Would have liked a hidden pocket for valuables." },
+    { "name": "Tanvi K.", "rating": 5, "comment": "Minimalist perfection. Fits my 13-inch MacBook perfectly." },
+    { "name": "Rajesh N.", "rating": 5, "comment": "Sturdy zippers and quality fabric. Worth every penny." },
+    { "name": "Shalini D.", "rating": 4, "comment": "Nice backpack, but the color option I wanted was out of stock." },
+    { "name": "Ankit J.", "rating": 5, "comment": "Great for travel. Fits under airplane seat easily." },
+    { "name": "Komal G.", "rating": 5, "comment": "Very chic and functional. I get compliments all the time." },
+    { "name": "Harsh V.", "rating": 3, "comment": "Decent quality, but the straps are a bit too short for my frame." },
+    { "name": "Ritika S.", "rating": 5, "comment": "Love the simple design and the multiple compartments." },
+    { "name": "Deepak P.", "rating": 5, "comment": "Excellent craftsmanship. Feels durable and looks premium." },
+    { "name": "Anushka T.", "rating": 4, "comment": "Good everyday backpack. The water bottle holder could be deeper." },
+    { "name": "Varun M.", "rating": 5, "comment": "Exactly as described. Minimalist, sturdy, and very practical." },
+    { "name": "Pallavi L.", "rating": 5, "comment": "Super comfortable and lightweight. Perfect for office." },
+    { "name": "Saurabh K.", "rating": 4, "comment": "Nice design, but the fabric attracts lint easily." },
+    { "name": "Riya C.", "rating": 5, "comment": "Sleek and spacious. I can carry my laptop, books, and lunch box easily." },
+    { "name": "Avinash S.", "rating": 5, "comment": "Great product. The minimalist look is very appealing." },
+    { "name": "Nidhi A.", "rating": 5, "comment": "Very sturdy and well-made. Highly recommend." },
+    { "name": "Kunal W.", "rating": 4, "comment": "Good value. Only minor complaint is the lack of a key clip." },
+    { "name": "Sonal B.", "rating": 5, "comment": "Perfect size for daily use. Looks stylish and feels durable." },
+    { "name": "Pranav R.", "rating": 5, "comment": "Best purchase this year. Simple, functional, and elegant." },
+    { "name": "Ananya D.", "rating": 4, "comment": "Comfortable to wear, but the main compartment zipper gets stuck sometimes." },
+    { "name": "Mohit S.", "rating": 5, "comment": "Love the minimalist aesthetic. Very professional." },
+    { "name": "Karishma J.", "rating": 5, "comment": "Excellent quality. The fabric is easy to clean." },
+    { "name": "Yash P.", "rating": 5, "comment": "Surprisingly roomy. Fits my 16-inch laptop with ease." },
+    { "name": "Chitra M.", "rating": 4, "comment": "Nice backpack, but the padding on the back could be thicker." },
+    { "name": "Aditya G.", "rating": 5, "comment": "Super sleek and functional. Perfect for minimalists." },
+    { "name": "Pooja R.", "rating": 5, "comment": "Great for travel and everyday use. Lightweight and sturdy." },
+    { "name": "Vishal N.", "rating": 5, "comment": "Very satisfied with the build and design. Will buy again." },
+    { "name": "Monika S.", "rating": 4, "comment": "Good product, but delivery was a bit slow." },
+    { "name": "Karan B.", "rating": 5, "comment": "Excellent backpack. Looks premium and feels comfortable." },
+    { "name": "Shivani T.", "rating": 5, "comment": "Love it! The minimalist design is exactly what I wanted." }
+  ],
+  "2": [
+    { "name": "Rahul M.", "rating": 5, "comment": "Best headphones I've owned." },
+    { "name": "Neha V.", "rating": 4, "comment": "Comfortable, battery life is solid." }
+  ],
+  "3": [
+    { "name": "Simran P.", "rating": 5, "comment": "Super soft and cozy!" }
+  ],
+  "4": [
+    { "name": "Vikram R.", "rating": 4, "comment": "Great features, sleek design." }
+  ],
+  "5": [
+    { "name": "Anjali D.", "rating": 5, "comment": "Minimalist and elegant." }
+  ],
+  "6": [
+    { "name": "Kunal T.", "rating": 4, "comment": "Very comfy for walking." }
+  ],
+  "7": [
+    { "name": "Sneha R.", "rating": 5, "comment": "Amazing sound quality!" }
+  ],
+  "8": [
+    { "name": "Raj K.", "rating": 4, "comment": "Stylish and comfortable." }
+  ]
 }
