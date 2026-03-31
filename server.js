@@ -11,12 +11,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Serve index.html from the root
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// Configure SendGrid with your API key from environment variable
+// Configure SendGrid
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // Order endpoint
@@ -25,7 +20,7 @@ app.post('/api/order', async (req, res) => {
 
   const msg = {
     to: process.env.ADMIN_EMAIL || 'myshoppyyacc@gmail.com',
-    from: process.env.ADMIN_EMAIL || 'myshoppyyacc@gmail.com', // must be a verified sender in SendGrid
+    from: process.env.ADMIN_EMAIL || 'myshoppyyacc@gmail.com',
     subject: `🛒 New Order Received - ${order.order_id}`,
     html: `
       <h2>New Order Details</h2>
@@ -75,6 +70,14 @@ app.post('/api/contact', async (req, res) => {
     console.error('SendGrid error:', error.response?.body || error);
     res.status(200).json({ success: true, message: 'Message received, but email notification failed.' });
   }
+});
+
+// ========== ADD THIS LINE TO SERVE STATIC FILES ==========
+app.use(express.static(__dirname));
+
+// Serve index.html (optional – static middleware will also serve it)
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT, () => {
